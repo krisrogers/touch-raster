@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>RUBI Touch Raster Plot</title>
+        <link rel="stylesheet" type="text/css" href="css/opentip.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        <div id="menu" class="hide">
+            <div id="controls">
+                <label>Jitter<input id="checkbox-jitter" type="checkbox" checked></label>
+                <label>Durations<input id="checkbox-duration" type="checkbox" checked></label>
+            </div>
+            <div id="legend">
+                <span>Left touch</span><div class="marker-left"></div>
+                <span>Right touch</span><div class="marker-right"></div>
+                <span>Body touch</span><div class="marker-body"></div>
+            </div>
+        </div>
+        <div id="csv-upload-form" class="fileupload ">
+            <fieldset>
+                <legend>Upload your CSV File</legend>
+                    <input type="file" name="File Upload" id="csv-upload" accept=".csv" />
+           </fieldset>
+        </div>
+        <div id="plot-container" class="">
+            <svg id="plot-svg"></svg>
+        </div>
+    </body>
+    <script src="js/lib/d3.js"></script>
+    <script src="js/lib/opentip-native.min.js"></script>
+    <script src="js/app/util.js"></script>
+    <script src="js/app/TouchScatterPlot.js"></script>
+    <script>
+        var csvUpload = document.getElementById("csv-upload");
+        csvUpload.addEventListener("change", function (event) {
+            var data = null;
+            var file = event.target.files[0];
+            console.log(file.name.search(/\.csv$/g));
+            if (file.name.search(/\.csv$/g) >= 0) {
+                var reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = function(event) {
+                    var data = d3.csv.parse(event.target.result);
+                    console.log(data);
+                    if (data[data.length - 1]["Time"].length === 0) {
+                        // Throw away incomplete last row
+                        data.pop();
+                    }
+                    d3.selectAll("#plot-container").classed("hide", false);
+                    setTimeout(function () {
+                        new TouchScatterPlot("#plot-svg", data, 1400, 700);
+                    }, 200);
+                    d3.select("#csv-upload-form").classed("hide", true);
+                    d3.selectAll("#menu").classed("hide", false);
+                };
+            } else {
+                alert("Incorrect file type, must be csv");
+            }            
+        }, false);
+    </script>
+</html>

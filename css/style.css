@@ -1,0 +1,116 @@
+body {
+    background: ivory;
+    height: 100%;
+    margin: 0;
+}
+
+.hide {
+    display: none;
+}
+
+#csv-upload-form {
+    width: 400px;
+    padding: 20px;
+}
+
+div#controls {
+    float: left;
+    margin-left: 100px;
+    font-size: 12px;
+    font-weight: bold;
+}
+div#controls input {
+    vertical-align: middle;
+}
+
+div#legend {
+    float: right;
+    margin-right: 200px;
+}
+div#legend span {
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 0 0 15px;
+}
+div#legend div[class^='marker-'] {
+    border-radius: 50%;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+    margin: 6px 5px;
+    float: left;
+}
+div#legend div.marker-left {
+    background-color: red;
+}
+div#legend div.marker-right {
+    background-color: rgb(51, 190, 77);
+}
+div#legend div.marker-body {
+    background-color: rgb(31, 120, 180);
+}
+
+#plot-container {
+    height: calc(100% - 50px);
+    width: 100%;
+}
+svg#plot-svg {
+    height: 100%;
+    width: 100%;
+}
+svg line.axis {
+    stroke: black;
+    stroke-width: 2px;
+}
+svg line.tick {
+    stroke: black;
+    stroke-width: 1px;
+}
+svg line.separator {
+    stroke: black;
+    stroke-width: 0.2px;
+}
+svg text.row-label {
+    cursor: default;
+}
+svg circle.touch-left {
+    fill: red;
+    fill-opacity: 0.5;
+    stroke: red;
+}
+svg line.touch-left {
+    stroke: red;
+    stroke-width:1.5px;
+}
+svg circle.touch-right {
+    fill: rgb(51, 190, 77);
+    fill-opacity: 0.5;
+    stroke: rgb(51, 190, 77);
+}
+svg line.touch-right {
+    stroke: rgb(51, 190, 77);
+    stroke-width: 1.5px;
+}
+svg circle.touch-body {
+    fill: rgb(31, 120, 180);
+    fill-opacity: 0.5;
+    stroke: rgb(31, 120, 180);
+}
+svg line.touch-body {
+    stroke: rgb(31, 120, 180);
+    stroke-width: 1.5px;
+}
+svg g.touch.active circle {
+    fill: orange;
+    fill-opacity: 0.5;
+    stroke: orange;
+}
+svg g.touch.active line {
+    stroke: orange;
+}
+svg text.active-time {
+    fill: orange;
+    font-size: 12px;
+    font-weight: bold;
+}
