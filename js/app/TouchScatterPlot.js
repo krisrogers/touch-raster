@@ -23,6 +23,7 @@ function TouchScatterPlot (svgEl, data) {
         if (!isNaN(lastDuration)) {
             finishTime += lastDuration;
         }
+        finishTime += 1;  // don't finish on a data point
         draw();
         d3.select("#checkbox-jitter").on("click", draw);
         d3.select("#checkbox-duration").on("click", durationsToggle);
@@ -148,7 +149,7 @@ function TouchScatterPlot (svgEl, data) {
                 });
             touchGroups.append("circle")
                 .attr("cx", function (d) { return d.x = timeScale(d.Time); })
-                .attr("cy", function (d) { return d.y = locationScale(d["Location"]) + randomJitter()})
+                .attr("cy", function (d) { return d.y = locationScale(d.Location) + randomJitter()})
                 .attr("r", 5)
                 .attr("class", function (d) {
                     return touchClasses(d.Hand);
