@@ -5,8 +5,6 @@ function TouchScatterPlot (svgEl, data) {
             T: 50,
             B: 50
         },
-        DURATION_COL = "Duration",
-        TIME_COL = "Time (secs)",
         JITTER_PERCENT = 0.05; // Jitter percent of duration
 
     var svg = d3.select(svgEl),
@@ -16,12 +14,12 @@ function TouchScatterPlot (svgEl, data) {
 
     function init () {
         data.forEach(function (d) {
-            d[TIME_COL] = parseInt(d[TIME_COL], 10);
-            d[DURATION_COL] = parseInt(d[DURATION_COL], 10);
+            d.Time = parseInt(d["Time (secs)"], 10);
+            d.Duration = parseInt(d.Duration, 10);
         });
         var lastRow = data[data.length - 1],
-            lastDuration = lastRow[DURATION_COL];
-        finishTime = lastRow[TIME_COL];
+            lastDuration = lastRow.Duration;
+        finishTime = lastRow.Time;
         if (!isNaN(lastDuration)) {
             finishTime += lastDuration;
         }
@@ -128,15 +126,15 @@ function TouchScatterPlot (svgEl, data) {
                         .attr("text-anchor", "middle")
                         .attr("x", d.x)
                         .attr("y", height - GUTTERS.B + 12)
-                        .text(d[TIME_COL]);
-                    var duration = d[DURATION_COL];
+                        .text(d.Time);
+                    var duration = d.Duration;
                     if (!isNaN(duration)) {
                         activeTimeEnd = svg.append("text")
                             .attr("class", "active-time")
                             .attr("text-anchor", "middle")
                             .attr("x", d.x2)
                             .attr("y", height - GUTTERS.B + 24)
-                            .text(d[TIME_COL] + duration);
+                            .text(d.Time + duration);
                     }
                 })
                 .on("mouseout", function () {
@@ -149,20 +147,20 @@ function TouchScatterPlot (svgEl, data) {
                     }
                 });
             touchGroups.append("circle")
-                .attr("cx", function (d) { return d.x = timeScale(d[TIME_COL]); })
+                .attr("cx", function (d) { return d.x = timeScale(d.Time); })
                 .attr("cy", function (d) { return d.y = locationScale(d["Location"]) + randomJitter()})
                 .attr("r", 5)
                 .attr("class", function (d) {
-                    return touchClasses(d["Hand"]);
+                    return touchClasses(d.Hand);
                 }).each(function (d) {
-                    var duration = d[DURATION_COL];
+                    var duration = d.Duration;
                     if (!isNaN(duration)) {
                         d3.select(this.parentNode).append("line")
                             .attr("x1", d.x + 5)
                             .attr("y1", d.y)
-                            .attr("x2", d.x2 = timeScale(d[TIME_COL] + duration))
+                            .attr("x2", d.x2 = timeScale(d.Time + duration))
                             .attr("y2", d.y)
-                            .attr("class", touchClasses(d["Hand"]));
+                            .attr("class", touchClasses(d.Hand));
                     }
                 });
         }());
